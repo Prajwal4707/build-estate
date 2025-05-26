@@ -2,23 +2,24 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 
 dotenv.config();
+console.log("MONGO_URI from env:", process.env.MONGODB_URI);
 
 const connectdb = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI, {
+    const conn = await mongoose.connect(process.env.MONGODB_URI, {
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
     });
 
     console.log(`MongoDB Connected: ${conn.connection.host}`);
-    
+
     // Handle connection errors after initial connection
-    mongoose.connection.on('error', err => {
-      console.error('MongoDB connection error:', err);
+    mongoose.connection.on("error", (err) => {
+      console.error("MongoDB connection error:", err);
     });
 
-    mongoose.connection.on('disconnected', () => {
-      console.log('MongoDB disconnected');
+    mongoose.connection.on("disconnected", () => {
+      console.log("MongoDB disconnected");
     });
 
     return conn;
